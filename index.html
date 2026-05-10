@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VAPE-БОГДАНІВКА | Ліцей ім. Ващенка</title>
+    <style>
+        /* CSS СТИЛІ */
+        :root {
+            --main-bg: #121212;
+            --card-bg: #1e1e1e;
+            --accent: #bb86fc;
+            --green: #03dac6;
+            --red: #ff4d4d;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--main-bg);
+            color: white;
+            padding-bottom: 50px;
+        }
+
+        header {
+            background: #1f1f1f;
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--accent);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo { font-size: 22px; font-weight: bold; letter-spacing: 1px; }
+        .logo span { color: var(--accent); }
+
+        .cart-status { font-size: 0.9em; background: #333; padding: 5px 12px; border-radius: 20px; }
+
+        .hero {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(to bottom, #1f1f1f, #121212);
+        }
+
+        .hero h1 { margin: 0; font-size: 2em; background: linear-gradient(45deg, var(--accent), var(--green)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero p { color: #aaa; margin: 10px 0; }
+
+        .status-tag {
+            display: inline-block;
+            padding: 4px 12px;
+            border: 1px solid var(--green);
+            color: var(--green);
+            border-radius: 15px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        #shop {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            padding: 20px 5%;
+        }
+
+        .product-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 15px;
+            text-align: center;
+            transition: 0.3s;
+            border: 1px solid #333;
+            position: relative;
+        }
+
+        .product-card:hover { transform: translateY(-5px); border-color: var(--accent); }
+
+        .product-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .price-box { margin: 10px 0; }
+        .old-price { text-decoration: line-through; color: var(--red); font-size: 0.9em; margin-right: 8px; }
+        .current-price { font-size: 1.4em; font-weight: bold; color: var(--green); }
+
+        .badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: var(--red);
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-size: 0.7em;
+            font-weight: bold;
+        }
+
+        button.buy-btn {
+            background: var(--accent);
+            color: #000;
+            border: none;
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        button.buy-btn:hover { background: #d7b7fd; }
+
+        /* Кнопка ШУХЕР */
+        #panic-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--red);
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 77, 77, 0.4);
+            z-index: 1000;
+        }
+
+        /* Перевірка віку */
+        #age-gate {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; z-index: 9999;
+            display: flex; align-items: center; justify-content: center;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Перевірка віку -->
+    <div id="age-gate">
+        <div style="padding: 30px; border: 1px solid var(--accent); border-radius: 20px;">
+            <h2>Тобі є 18?</h2>
+            <p>Сайт тільки для повнолітніх ліцеїстів</p>
+            <button onclick="document.getElementById('age-gate').style.display='none'" style="padding: 10px 30px; background: var(--accent); border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">ТАК</button>
+        </div>
+    </div>
+
+    <button id="panic-button" onclick="panic()">⚠️ ШУХЕР (Esc)</button>
+
+    <header>
+        <div class="logo">VAPE<span>-БОГДАНІВКА</span></div>
+        <div class="cart-status">Замовлення: <span id="cart-count">0</span></div>
+    </header>
+
+    <section class="hero">
+        <h1>Прилуки | Ліцей ім. Ващенка</h1>
+        <p>Найнижча націнка в місті. Доставка до стадіону або за спортзал.</p>
+        <div class="status-tag">🟢 ОНЛАЙН (На зв'язку)</div>
+    </section>
+
+    <main id="shop">
+        <!-- Товари завантажаться тут -->
+    </main>
+
+    <script>
+        // ДАНІ ТОВАРІВ
+        const products = [
+            {
+                name: "Vaporesso XROS 3 Black",
+                price: 940,
+                oldPrice: 1150,
+                img: "https://vapehub.org.ua/image/cache/catalog/tovary/pod_systemi/vaporesso/xros3/vaporesso-xros-3-pod-kit-black-700x700.jpg"
+            },
+            {
+                name: "Картридж XROS (усі види)",
+                price: 125,
+                oldPrice: 160,
+                img: "https://vape2go.com.ua/image/cache/catalog/products/vaporesso-xros-replacement-pod-cartridge-1.2-ohm-700x700.jpg"
+            },
+            {
+                name: "Жижа Chaser Lux 30ml",
+                price: 235,
+                oldPrice: 290,
+                img: "https://vapehub.org.ua/image/cache/catalog/tovary/zhidkosti/chaser/chaser-lux/chaser-lux-strawberry-banana-600x600.jpg"
+            },
+            {
+                name: "Жижа Elfliq (Salt)",
+                price: 275,
+                oldPrice: 340,
+                img: "https://vapehub.org.ua/image/cache/catalog/tovary/zhidkosti/elf-bar/elfliq/sour-apple-700x700.jpg"
+            }
+        ];
+
+        // ВИВІД ТОВАРІВ
+        const shop = document.getElementById('shop');
+        let count = 0;
+
+        products.forEach(p => {
+            const card = document.createElement('div');
+            card.className = 'product-card';
+            card.innerHTML = `
+                <div class="badge">ЗНИЖКА</div>
+                <img src="${p.img}" alt="${p.name}">
+                <h3>${p.name}</h3>
+                <div class="price-box">
+                    <span class="old-price">${p.oldPrice} грн</span>
+                    <span class="current-price">${p.price} грн</span>
+                </div>
+                <p style="font-size: 0.8em; color: #888; margin-bottom: 15px;">📍 Богданівський ліцей</p>
+                <button class="buy-btn" onclick="order('${p.name}')">КУПИТИ В TG</button>
+            `;
+            shop.appendChild(card);
+        });
+
+        // ЛОГІКА ТЕЛЕГРАМУ
+        function order(name) {
+            count++;
+            document.getElementById('cart-count').innerText = count;
+            const tgName = 'prodazhtovarov335'; // 
+            const text = `Привіт! Я з ліцею Ващенка. Хочу взяти: ${name}. Де зустрінемось?`;
+            window.open(`https://t.me/${tgName}?text=${encodeURIComponent(text)}`, '_blank');
+        }
+
+        // ЛОГІКА ШУХЕРУ
+        function panic() {
+            window.location.href = "https://uk.wikipedia.org/wiki/Ващенко_Григорій_Григорович";
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === "Escape") panic();
+        });
+    </script>
+</body>
+</html>
