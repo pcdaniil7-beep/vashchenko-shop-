@@ -3,27 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VAPE-БОГДАНІВКА | Ліцей ім. Ващенка</title>
+    <title>Vape Delivery | Богданівка та район</title>
     <style>
-        /* CSS СТИЛІ */
         :root {
-            --main-bg: #121212;
-            --card-bg: #1e1e1e;
-            --accent: #bb86fc;
-            --green: #03dac6;
-            --red: #ff4d4d;
+            --main-bg: #0f0f0f;
+            --card-bg: #1a1a1a;
+            --accent: #00d4ff;
+            --green: #39ff14;
+            --red: #ff3131;
         }
 
         body {
             margin: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', Roboto, sans-serif;
             background: var(--main-bg);
             color: white;
-            padding-bottom: 50px;
+            padding-bottom: 60px;
         }
 
         header {
-            background: #1f1f1f;
+            background: #151515;
             padding: 15px 5%;
             display: flex;
             justify-content: space-between;
@@ -34,28 +33,25 @@
             z-index: 100;
         }
 
-        .logo { font-size: 22px; font-weight: bold; letter-spacing: 1px; }
+        .logo { font-size: 20px; font-weight: 800; text-transform: uppercase; }
         .logo span { color: var(--accent); }
-
-        .cart-status { font-size: 0.9em; background: #333; padding: 5px 12px; border-radius: 20px; }
 
         .hero {
             text-align: center;
-            padding: 40px 20px;
-            background: linear-gradient(to bottom, #1f1f1f, #121212);
+            padding: 30px 15px;
+            background: linear-gradient(to bottom, #151515, #0f0f0f);
         }
 
-        .hero h1 { margin: 0; font-size: 2em; background: linear-gradient(45deg, var(--accent), var(--green)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .hero p { color: #aaa; margin: 10px 0; }
+        .hero h1 { margin: 0; font-size: 1.8em; color: var(--accent); }
+        .hero p { color: #888; font-size: 0.9em; margin: 10px 0; }
 
-        .status-tag {
-            display: inline-block;
-            padding: 4px 12px;
-            border: 1px solid var(--green);
-            color: var(--green);
-            border-radius: 15px;
-            font-size: 0.8em;
-            font-weight: bold;
+        .delivery-zones {
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid var(--accent);
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 0.85em;
+            margin-top: 15px;
         }
 
         #shop {
@@ -70,35 +66,21 @@
             border-radius: 15px;
             padding: 15px;
             text-align: center;
-            transition: 0.3s;
-            border: 1px solid #333;
+            border: 1px solid #222;
             position: relative;
         }
 
-        .product-card:hover { transform: translateY(-5px); border-color: var(--accent); }
-
         .product-card img {
             width: 100%;
-            height: 200px;
+            height: 180px;
             object-fit: cover;
             border-radius: 10px;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
 
         .price-box { margin: 10px 0; }
-        .old-price { text-decoration: line-through; color: var(--red); font-size: 0.9em; margin-right: 8px; }
-        .current-price { font-size: 1.4em; font-weight: bold; color: var(--green); }
-
-        .badge {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            background: var(--red);
-            padding: 3px 8px;
-            border-radius: 5px;
-            font-size: 0.7em;
-            font-weight: bold;
-        }
+        .current-price { font-size: 1.5em; font-weight: bold; color: var(--green); }
+        .old-price { text-decoration: line-through; color: #555; font-size: 0.9em; margin-right: 10px; }
 
         button.buy-btn {
             background: var(--accent);
@@ -109,28 +91,24 @@
             border-radius: 8px;
             font-weight: bold;
             cursor: pointer;
-            transition: 0.2s;
+            font-size: 1em;
         }
 
-        button.buy-btn:hover { background: #d7b7fd; }
-
-        /* Кнопка ШУХЕР */
         #panic-button {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
+            bottom: 15px;
+            right: 15px;
             background: var(--red);
             color: white;
             border: none;
-            padding: 15px 20px;
+            padding: 12px 20px;
             border-radius: 50px;
             font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(255, 77, 77, 0.4);
             z-index: 1000;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(255, 49, 49, 0.5);
         }
 
-        /* Перевірка віку */
         #age-gate {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -142,94 +120,82 @@
 </head>
 <body>
 
-    <!-- Перевірка віку -->
     <div id="age-gate">
-        <div style="padding: 30px; border: 1px solid var(--accent); border-radius: 20px;">
-            <h2>Тобі є 18?</h2>
-            <p>Сайт тільки для повнолітніх ліцеїстів</p>
-            <button onclick="document.getElementById('age-gate').style.display='none'" style="padding: 10px 30px; background: var(--accent); border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">ТАК</button>
+        <div style="padding: 20px;">
+            <h2>Вам вже є 18 років?</h2>
+            <button onclick="document.getElementById('age-gate').style.display='none'" style="padding: 10px 40px; background: var(--accent); border: none; border-radius: 5px; font-weight: bold;">ТАК</button>
         </div>
     </div>
 
-    <button id="panic-button" onclick="panic()">⚠️ ШУХЕР (Esc)</button>
+    <button id="panic-button" onclick="panic()">⚠️ ЗАКРИТИ (Esc)</button>
 
     <header>
-        <div class="logo">VAPE<span>-БОГДАНІВКА</span></div>
-        <div class="cart-status">Замовлення: <span id="cart-count">0</span></div>
+        <div class="logo">VAPE<span>-DELIVERY</span></div>
+        <div style="font-size: 0.8em; color: var(--green);">● Online 24/7</div>
     </header>
 
     <section class="hero">
-        <h1>Прилуки | Ліцей ім. Ващенка</h1>
-        <p>Найнижча націнка в місті. Доставка до стадіону або за спортзал.</p>
-        <div class="status-tag">🟢 ОНЛАЙН (На зв'язку)</div>
+        <h1>Швидка доставка</h1>
+        <div class="delivery-zones">
+            📍 Богданівка • Онищенки • Малківка • Даньківка
+        </div>
+        <p>Найкращі ціни в районі. Анонімно. Швидко.</p>
     </section>
 
-    <main id="shop">
-        <!-- Товари завантажаться тут -->
-    </main>
+    <main id="shop"></main>
 
     <script>
-        // ДАНІ ТОВАРІВ
-    const products = [
+        const products = [
             {
                 name: "Vaporesso XROS 3 mini",
                 price: 940,
-                oldPrice: 999,
+                oldPrice: 1150,
                 img: "https://vapehub.org.ua/image/cache/catalog/tovary/pod_systemi/vaporesso/xros3/vaporesso-xros-3-pod-kit-black-700x700.jpg"
             },
             {
                 name: "Картридж XROS (усі види)",
                 price: 140,
-                oldPrice: 180,
+                oldPrice: 160,
                 img: "https://vape2go.com.ua/image/cache/catalog/products/vaporesso-xros-replacement-pod-cartridge-1.2-ohm-700x700.jpg"
             },
             {
                 name: "Жижа Chaser 30ml",
                 price: 300,
-                oldPrice: 350,
+                oldPrice: 290,
                 img: "https://vapehub.org.ua/image/cache/catalog/tovary/zhidkosti/chaser/chaser-lux/chaser-lux-strawberry-banana-600x600.jpg"
             },
             {
-                name: "Жижа lucky 30ml",
+                name: "Жижа Lucky 30ml",
                 price: 350,
-                oldPrice: 400,
+                oldPrice: 340,
                 img: "https://vapehub.org.ua/image/cache/catalog/tovary/zhidkosti/elf-bar/elfliq/sour-apple-700x700.jpg"
             }
         ];
 
-        // ВИВІД ТОВАРІВ
         const shop = document.getElementById('shop');
-        let count = 0;
-
         products.forEach(p => {
             const card = document.createElement('div');
             card.className = 'product-card';
             card.innerHTML = `
-                <div class="badge">ЗНИЖКА</div>
                 <img src="${p.img}" alt="${p.name}">
                 <h3>${p.name}</h3>
                 <div class="price-box">
                     <span class="old-price">${p.oldPrice} грн</span>
                     <span class="current-price">${p.price} грн</span>
                 </div>
-                <p style="font-size: 0.8em; color: #888; margin-bottom: 15px;">📍 Богданівський ліцей</p>
-                <button class="buy-btn" onclick="order('${p.name}')">КУПИТИ В TG</button>
+                <button class="buy-btn" onclick="order('${p.name}')">ЗАМОВИТИ</button>
             `;
             shop.appendChild(card);
         });
 
-        // ЛОГІКА ТЕЛЕГРАМУ
         function order(name) {
-            count++;
-            document.getElementById('cart-count').innerText = count;
-            const tgName = 'prodazhtovarov335'; // 
-            const text = `Привіт! Я з ліцею Ващенка. Хочу взяти: ${name}. Де зустрінемось?`;
+            const tgName = 'ТВІЙ_НІК_ТГ'; // ЗАМІНИ НА СВІЙ НІК
+            const text = `Вітаю! Хочу замовити: ${name}. Доставка в (вкажіть ваше село).`;
             window.open(`https://t.me/${tgName}?text=${encodeURIComponent(text)}`, '_blank');
         }
 
-        // ЛОГІКА ШУХЕРУ
         function panic() {
-            window.location.href = "https://uk.wikipedia.org/wiki/Ващенко_Григорій_Григорович";
+            window.location.href = "https://www.google.com";
         }
 
         document.addEventListener('keydown', (e) => {
